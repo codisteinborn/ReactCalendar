@@ -27,6 +27,14 @@ class App extends Component {
     this.setState({ monthView: true, weekView: false, isLoaded: true, date: now, dayOfWeek: dayOfWeek, month: month, day: day, year: year });
   }
 
+  monthSelect = () => {
+    this.setState({ monthView: true});
+  }
+
+   weekSelect = () => {
+    this.setState({ monthView: false});
+  }
+
   render() {
     const { error, isLoaded} = this.state;
     if (error) {
@@ -39,6 +47,8 @@ class App extends Component {
       return (
         <div>
           <h1 className="App-title">Calendar</h1>
+          <button id="month" onClick={() => this.monthSelect()}>Month</button>
+          <button id="week" onClick={() => this.weekSelect()}>Week</button>
           <Calendar monthView={this.state.monthView} month={this.state.month} year={this.state.year} day={this.state.day} dayOfWeek={this.state.dayofWeek}/>
         </div>
       //   this.state.monthView ?
