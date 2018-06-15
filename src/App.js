@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import moment from 'moment';
 import './App.css';
 import Calendar from './components/Calendar/Calendar';
 
@@ -9,34 +10,64 @@ class App extends Component {
       error: null,
       isLoaded: false,
       monthView: true,
-      weekView: false,
+      days: [],
       date: [],
       month: '',
       day: '',
       year: '',
-      dayOfWeek: ''
+      dayOfWeek: '',
+      dayNames: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+      monthNames: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
     };
   }
 
   componentDidMount() {
     var now = (new Date()).toString().split(' ')
-    var dayOfWeek = now[0]
-    var month = now[1]
-    var day = now[2]
-    var year = now[3]
-    this.setState({ monthView: true, weekView: false, isLoaded: true, date: now, dayOfWeek: dayOfWeek, month: month, day: day, year: year });
+    var dayOfWeek = moment().format('dddd');
+    var month = moment().format('MM');
+    var day = moment().format('DD');
+    var year = moment().format('YYYY');
+    var days = Array.from({length: day}, (v, k) => k+1);
+    this.setState({ monthView: true, isLoaded: true, date: now, dayOfWeek: dayOfWeek, month: month, day: day, year: year, days: days });
   }
 
   monthSelect = () => {
-    this.setState({ monthView: true});
+    this.setState({ monthView: true });
   }
 
-   weekSelect = () => {
-    this.setState({ monthView: false});
+  weekSelect = () => {
+    this.setState({ monthView: false });
+  }
+
+  monthDays = () => {
+    if (this.state.month === '09' || this.state.month === '04' || this.state.month === '06' || this.state.month === '11') {
+      this.setState({days: [
+          {1: 'one'},
+          {2: 'two'},
+          {3: 'three'}
+        ]});
+      }
+    else if (this.state.month === '02') {
+      this.setState({days: [
+        {1: 'one'},
+        {2: 'two'},
+        {3: 'three'},
+        {4: 'four'}
+      ]});
+    }
+    else {
+      this.setState({days: [
+        {1: 'one'},
+        {2: 'two'},
+        {3: 'three'},
+        {4: 'four'},
+        {5: 'five'}
+      ]});
+    }
   }
 
   render() {
-    const { error, isLoaded} = this.state;
+    const { error, isLoaded } = this.state;
     if (error) {
       return <div>Error: {error.message}</div>;
     }
@@ -49,19 +80,9 @@ class App extends Component {
           <h1 className="App-title">Calendar</h1>
           <button id="month" onClick={() => this.monthSelect()}>Month</button>
           <button id="week" onClick={() => this.weekSelect()}>Week</button>
-          <Calendar monthView={this.state.monthView} month={this.state.month} year={this.state.year} day={this.state.day} dayOfWeek={this.state.dayofWeek}/>
+          <h2>{this.state.year} </h2>
+          <Calendar monthView={this.state.monthView} days={this.state.days} month={this.state.month} year={this.state.year} day={this.state.day} dayOfWeek={this.state.dayofWeek} />
         </div>
-      //   this.state.monthView ?
-      //   {/* <MonthCal /> */ }
-      //   <p className="App-intro">
-      //     {this.state.year}
-      //   </p>
-      //     </div > :
-      // {/* <WeekCal /> */ }
-      // <div>
-      //   Week cal
-      // </div>
-              
       );
     }
   }
