@@ -11,7 +11,7 @@ const MonthCal = props => {
             {props.day}
             </p>
             <p>
-            # of Calendar Entries:
+            Calendar Entries:
             {/* {props.entries.length} */}
             </p>
         </div>

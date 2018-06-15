@@ -10,26 +10,12 @@ class App extends Component {
       error: null,
       isLoaded: false,
       monthView: true,
-      // days: [
-      //   {
-      //     day: 1,
-      //     dayOfWeek: 'Monday',
-      //     entries: []
-      //   },
-      //   {
-      //     day: 2,
-      //     dayOfWeek: 'Tuesday',
-      //     entries: []
-      //   }
-      // ],
       date: [],
       month: '',
       days: [],
       day: '',
       year: '',
-      dayOfWeek: '',
-      dayNames: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
-      monthNames: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+      dayOfWeek: ''
     };
   }
 
@@ -39,14 +25,13 @@ class App extends Component {
     var month = moment().format('MM');
     var day = moment().format('DD');
     var year = moment().format('YYYY');
-
-  var daysInMonth = moment().daysInMonth();
-  var arrDays = [];
-  while(daysInMonth) {
-    var current = moment().date(daysInMonth);
-    arrDays.push(current);
-    daysInMonth--;
-  }
+    var daysInMonth = moment().daysInMonth();
+    var arrDays = [];
+    while (daysInMonth) {
+      var current = moment().date(daysInMonth);
+      arrDays.push(current);
+      daysInMonth--;
+    }
     this.setState({ monthView: true, isLoaded: true, date: now, dayOfWeek: dayOfWeek, month: month, day: day, year: year, days: arrDays.reverse() });
   }
 
@@ -57,39 +42,22 @@ class App extends Component {
   weekSelect = () => {
     this.setState({ monthView: false });
   }
-
-  monthDays = () => {
-    if (this.state.month === '09' || this.state.month === '04' || this.state.month === '06' || this.state.month === '11') {
-      this.setState({
-        days: [
-          { 1: 'one' },
-          { 2: 'two' },
-          { 3: 'three' }
-        ]
-      });
+  lastMonth = () => {
+    if(this.state.month < 2){
+      this.setState({ month: 12, year: Number(this.state.year) - 1 });
     }
-    else if (this.state.month === '02') {
-      this.setState({
-        days: [
-          { 1: 'one' },
-          { 2: 'two' },
-          { 3: 'three' },
-          { 4: 'four' }
-        ]
-      });
-    }
-    else {
-      this.setState({
-        days: [
-          { 1: 'one' },
-          { 2: 'two' },
-          { 3: 'three' },
-          { 4: 'four' },
-          { 5: 'five' }
-        ]
-      });
+    else{
+    this.setState({ month: Number(this.state.month) - 1 })
     }
   }
+  nextMonth = () => {
+    if(this.state.month > 11){
+      this.setState({ month: 1, year: Number(this.state.year) + 1 })
+    }
+    else{
+    this.setState({ month: Number(this.state.month)  + 1 })
+  }
+}
 
   render() {
     const { error, isLoaded } = this.state;
@@ -103,9 +71,13 @@ class App extends Component {
       return (
         <div>
           <h1 className="App-title">Calendar</h1>
-          <button id="month" onClick={() => this.monthSelect()}>Month</button>
-          <button id="week" onClick={() => this.weekSelect()}>Week</button>
-          <h2>{this.state.year} </h2>
+          <button id="month" onClick={() => this.monthSelect()}>Month View</button>
+          <button id="week" onClick={() => this.weekSelect()}>Week View</button>
+          <div>
+            <button id="lastMonth" onClick={() => this.lastMonth()}> last </button>
+            <h2>{moment(this.state.month.toString()).format('MMMM')} {this.state.year} </h2>
+            <button id="nextMonth" onClick={() => this.nextMonth()}> next </button>
+          </div>
           <Calendar monthView={this.state.monthView} days={this.state.days} month={this.state.month} year={this.state.year} day={this.state.day} dayOfWeek={this.state.dayofWeek} />
         </div>
       );
