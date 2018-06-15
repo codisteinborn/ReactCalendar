@@ -11,18 +11,19 @@ import WeekCal from './WeekCal/WeekCal.js'
 //             month: this.props.month
 //         };
 //     }
-//     render() {
-//         return (
 
 
-const Calendar = props => (
-    props.monthView ?
-    <div>
-    {props.days.map(elem => <MonthCal month={props.month} day={props.day} dayOfWeek={props.dayOfWeek} days={props.days}/>)} </div> :
-        // <MonthCal month={props.month} day={props.day} dayOfWeek={props.dayOfWeek} days={props.days}/> :
-        <WeekCal month={props.month} />
-)
-//     }
-// }
+
+const Calendar = props => {
+
+    return (
+        props.monthView ?
+            <div>
+                {props.days.map(elem => <MonthCal day={elem._d.toString().substring(0, 10)} />)} </div> :
+            // month={props.month} dayOfWeek={props.dayOfWeek} days={props.days}/>)} </div> :
+            // <MonthCal month={props.month} day={props.day} dayOfWeek={props.dayOfWeek} days={props.days}/> :
+            <WeekCal month={props.month} />
+    )
+}
 
 export default Calendar;

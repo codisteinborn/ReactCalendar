@@ -4,18 +4,17 @@ import './MonthCal.css'
 
 
 const MonthCal = props => {
+    console.log(props.d)
     return (
-    <div>
         <div className="monthCell">
             <p>
-            Date (day - day of week)
-            {props.days}
+            {props.day}
             </p>
             <p>
-            # of Calendar Entries
+            # of Calendar Entries:
+            {/* {props.entries.length} */}
             </p>
         </div>
-    </div>
 );
 }
 
