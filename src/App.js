@@ -29,7 +29,7 @@ class App extends Component {
     var arrDays = [];
     while (daysInMonth) {
       var current = moment().date(daysInMonth);
-      arrDays.push(current);
+      arrDays.push({current:current, entries: []});
       daysInMonth--;
     }
     this.setState({ monthView: true, isLoaded: true, date: now, dayOfWeek: dayOfWeek, month: month, day: day, year: year, days: arrDays.reverse() });
@@ -42,6 +42,7 @@ class App extends Component {
   weekSelect = () => {
     this.setState({ monthView: false });
   }
+
   lastMonth = () => {
     var newMonth = '';
     var newYear = ''
@@ -62,6 +63,7 @@ class App extends Component {
     }
     this.setState({ month: newMonth, year: newYear, days : arrDays.reverse() })
   }
+
   nextMonth = () => {
     var newMonth = '';
     var newYear = ''

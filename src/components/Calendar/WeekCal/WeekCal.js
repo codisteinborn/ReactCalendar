@@ -1,20 +1,20 @@
 import React from 'react';
-// import './WeekCal.css'
+import './WeekCal.css'
 
 
 const WeekCal = props => (
     <div>
         <div className="weekCell">
             <p>
-            Date (day - day of week)
+            {/* {props.day} */}
             </p>
             <p>
-            Calendar Entries
+            Calendar Entries:
+            {/* {props.entries} */}
             </p>
-            {/* <form>
-                <input> Add Calendar Entry
-                </input>
-                </form> */}
+            <form>
+                <input name='entries' onChange={this.handleChange}/>
+                </form>
         </div>
     </div>
 );
