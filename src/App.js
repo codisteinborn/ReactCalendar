@@ -43,21 +43,45 @@ class App extends Component {
     this.setState({ monthView: false });
   }
   lastMonth = () => {
-    if(this.state.month < 2){
-      this.setState({ month: 12, year: Number(this.state.year) - 1 });
+    var newMonth = '';
+    var newYear = ''
+    if (this.state.month < 2) {
+      newMonth = '12';
+      newYear = (Number(this.state.year) - 1).toString()
     }
-    else{
-    this.setState({ month: Number(this.state.month) - 1 })
+    else {
+      newMonth = (Number(this.state.month) - 1).toString();
+      newYear = this.state.year
     }
+    var daysInMonth = moment(newMonth).daysInMonth();
+    var arrDays = [];
+    while (daysInMonth) {
+      var current = moment(newMonth).date(daysInMonth);
+      arrDays.push(current);
+      daysInMonth--;
+    }
+    this.setState({ month: newMonth, year: newYear, days : arrDays.reverse() })
   }
   nextMonth = () => {
-    if(this.state.month > 11){
-      this.setState({ month: 1, year: Number(this.state.year) + 1 })
+    var newMonth = '';
+    var newYear = ''
+    if (this.state.month > 11) {
+      newMonth = '1';
+      newYear = (Number(this.state.year) + 1).toString()
     }
-    else{
-    this.setState({ month: Number(this.state.month)  + 1 })
+    else {
+      newMonth = (Number(this.state.month) + 1).toString();
+      newYear = this.state.year
+    }
+    var daysInMonth = moment(newMonth).daysInMonth();
+    var arrDays = [];
+    while (daysInMonth) {
+      var current = moment(newMonth).date(daysInMonth);
+      arrDays.push(current);
+      daysInMonth--;
+    }
+    this.setState({ month: newMonth, year: newYear, days : arrDays.reverse() })
   }
-}
 
   render() {
     const { error, isLoaded } = this.state;
