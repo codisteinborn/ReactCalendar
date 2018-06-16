@@ -4,7 +4,6 @@ import './MonthCal.css'
 
 
 const MonthCal = props => {
-    console.log(props.d)
     return (
         <div className="monthCell">
             <p>
@@ -12,7 +11,7 @@ const MonthCal = props => {
             </p>
             <p>
             Calendar Entries:
-            {/* {props.entries.length} */}
+            {props.entries.length}
             </p>
         </div>
 );

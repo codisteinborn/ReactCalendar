@@ -3,26 +3,19 @@ import React from 'react';
 import MonthCal from './MonthCal/MonthCal.js';
 import WeekCal from './WeekCal/WeekCal.js'
 
-// class Calendar extends React.Component {
-//     constructor(props, context) {
-//         super(props, context);
-//         this.state = {
-//             monthView: this.props.monthView,
-//             month: this.props.month
-//         };
-//     }
-
-
-
 const Calendar = props => {
 
     return (
         props.monthView ?
             <div>
-                {props.days.map(elem => <MonthCal day={elem._d.toString().substring(0, 10)} />)} </div> :
+                {props.days.map(elem => <MonthCal day={elem.current._d.toString().substring(0, 10)} entries={elem.entries} />)}
+            </div> :
             // month={props.month} dayOfWeek={props.dayOfWeek} days={props.days}/>)} </div> :
             // <MonthCal month={props.month} day={props.day} dayOfWeek={props.dayOfWeek} days={props.days}/> :
-            <WeekCal month={props.month} />
+            // <WeekCal month={props.month} />
+            <div>
+                {props.days.map(elem => <WeekCal day={elem.current._d.toString().substring(0, 10)} entries={elem.entries} />)}
+            </div>
     )
 }
 
