@@ -6,15 +6,17 @@ const WeekCal = props => (
     <div>
         <div className="weekCell">
             <p>
-            {/* {props.day} */}
+                {props.day}
             </p>
             <p>
-            Calendar Entries:
-            {/* {props.entries} */}
+                Calendar Entries:
+            {props.entries}
             </p>
             <form>
-                <input name='entries' onChange={this.handleChange}/>
-                </form>
+                <input name='entries'
+                // onChange={this.handleChange} 
+                />
+            </form>
         </div>
     </div>
 );

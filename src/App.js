@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import moment from 'moment';
+import _ from 'underscore';
 import './App.css';
 import Calendar from './components/Calendar/Calendar';
 
@@ -13,6 +14,8 @@ class App extends Component {
       date: [],
       month: '',
       days: [],
+      weeks: [],
+      currentWeek: [],
       day: '',
       year: '',
       dayOfWeek: ''
@@ -29,10 +32,10 @@ class App extends Component {
     var arrDays = [];
     while (daysInMonth) {
       var current = moment().date(daysInMonth);
-      arrDays.push({current:current, entries: []});
+      arrDays.push({ current: current, entries: [] });
       daysInMonth--;
     }
-    this.setState({ monthView: true, isLoaded: true, date: now, dayOfWeek: dayOfWeek, month: month, day: day, year: year, days: arrDays.reverse() });
+    this.setState({ monthView: true, isLoaded: true, date: now, dayOfWeek: dayOfWeek, month: month, day: day, year: year, days: arrDays.reverse(), weeks: _.chunk(arrDays, 7) });
   }
 
   monthSelect = () => {
@@ -40,7 +43,7 @@ class App extends Component {
   }
 
   weekSelect = () => {
-    this.setState({ monthView: false });
+    this.setState({ monthView: false, currentWeek: this.state.weeks[0] });
   }
 
   lastMonth = () => {
@@ -58,15 +61,15 @@ class App extends Component {
     var arrDays = [];
     while (daysInMonth) {
       var current = moment(newMonth).date(daysInMonth);
-      arrDays.push(current);
+      arrDays.push({ current: current, entries: [] });
       daysInMonth--;
     }
-    this.setState({ month: newMonth, year: newYear, days : arrDays.reverse() })
+    this.setState({ month: newMonth, year: newYear, days: arrDays.reverse(), weeks: _.chunk(arrDays, 7), currentWeek: _.chunk(arrDays, 7)[0] })
   }
 
   nextMonth = () => {
     var newMonth = '';
-    var newYear = ''
+    var newYear = '';
     if (this.state.month > 11) {
       newMonth = '1';
       newYear = (Number(this.state.year) + 1).toString()
@@ -79,10 +82,35 @@ class App extends Component {
     var arrDays = [];
     while (daysInMonth) {
       var current = moment(newMonth).date(daysInMonth);
-      arrDays.push(current);
+      arrDays.push({ current: current, entries: [] });
       daysInMonth--;
     }
-    this.setState({ month: newMonth, year: newYear, days : arrDays.reverse() })
+    this.setState({ month: newMonth, year: newYear, days: arrDays.reverse(), weeks: _.chunk(arrDays, 7), currentWeek: _.chunk(arrDays, 7)[0] })
+  }
+
+  lastWeek = () => {
+    if (this.state.currentWeek === this.state.weeks[0]) {
+      console.log("firstweek")
+    }
+    else {
+      for (var i = 0; i < this.state.weeks.length; i++) {
+        if (this.state.currentWeek === this.state.weeks[i]) {
+          this.setState({ currentWeek: this.state.weeks[i - 1] });
+        }
+      }
+    }
+  }
+  nextWeek = () => {
+    if (this.state.currentWeek === this.state.weeks[this.state.weeks.length]) {
+      nextMonth();
+    }
+    else {
+      for (var i = 0; i < this.state.weeks.length; i++) {
+        if (this.state.currentWeek === this.state.weeks[i]) {
+          this.setState({ currentWeek: this.state.weeks[i + 1] });
+        }
+      }
+    }
   }
 
   render() {
@@ -96,15 +124,15 @@ class App extends Component {
     else {
       return (
         <div>
-          <h1 className="App-title">Calendar</h1>
+          <h1>Calendar</h1>
           <button id="month" onClick={() => this.monthSelect()}>Month View</button>
           <button id="week" onClick={() => this.weekSelect()}>Week View</button>
           <div>
-            <button id="lastMonth" onClick={() => this.lastMonth()}> last </button>
             <h2>{moment(this.state.month.toString()).format('MMMM')} {this.state.year} </h2>
-            <button id="nextMonth" onClick={() => this.nextMonth()}> next </button>
+            <button id="lastMonth" onClick={() => this.lastMonth()}>Prev Month</button>
+            <button id="nextMonth" onClick={() => this.nextMonth()}>Next Month</button>
           </div>
-          <Calendar monthView={this.state.monthView} days={this.state.days} month={this.state.month} year={this.state.year} day={this.state.day} dayOfWeek={this.state.dayofWeek} />
+          <Calendar monthView={this.state.monthView} days={this.state.days} weeks={this.state.weeks} currentWeek={this.state.currentWeek} lastMonth={() => this.lastMonth()} nextMonth={() => this.nextMonth()} lastWeek={() => this.lastWeek()} nextWeek={() => this.nextWeek()} month={this.state.month} day={this.state.day} />
         </div>
       );
     }
