@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import _ from 'underscore';
 import './App.css';
-import Calendar from './components/Calendar/Calendar';
+// import Calendar from './components/Calendar/Calendar';
+import MonthCal from './components/Calendar/MonthCal';
+import WeekCal from './components/Calendar/WeekCal';
 
 class App extends Component {
   constructor(props) {
@@ -18,13 +20,13 @@ class App extends Component {
       currentWeek: [],
       day: '',
       year: '',
-      dayOfWeek: ''
+      currEntry: '',
+      entries: []
     };
   }
 
   componentDidMount() {
     var now = (new Date()).toString().split(' ')
-    var dayOfWeek = moment().format('dddd');
     var month = moment().format('MM');
     var day = moment().format('DD');
     var year = moment().format('YYYY');
@@ -35,7 +37,7 @@ class App extends Component {
       arrDays.push({ current: current, entries: [] });
       daysInMonth--;
     }
-    this.setState({ monthView: true, isLoaded: true, date: now, dayOfWeek: dayOfWeek, month: month, day: day, year: year, days: arrDays.reverse(), weeks: _.chunk(arrDays, 7) });
+    this.setState({ monthView: true, isLoaded: true, date: now, month: month, day: day, year: year, days: arrDays.reverse(), weeks: _.chunk(arrDays, 7) });
   }
 
   monthSelect = () => {
@@ -44,6 +46,17 @@ class App extends Component {
 
   weekSelect = () => {
     this.setState({ monthView: false, currentWeek: this.state.weeks[0] });
+  }
+
+  daySelect = (current) => {
+    console.log("double click")
+    var currDay = this.state.days.find(e => e.current === current);
+    console.log(currDay)
+    for (var i = 0; i < this.state.weeks.length; i++) {
+      if (this.state.weeks[i].includes(currDay)) {
+        this.setState({ monthView: false, currentWeek: this.state.weeks[i] });
+      }
+    }
   }
 
   lastMonth = () => {
@@ -61,7 +74,10 @@ class App extends Component {
     var arrDays = [];
     while (daysInMonth) {
       var current = moment(newMonth).date(daysInMonth);
-      arrDays.push({ current: current, entries: [] });
+      arrDays.push({
+        current: current
+        // , entries :[]
+      });
       daysInMonth--;
     }
     this.setState({ month: newMonth, year: newYear, days: arrDays.reverse(), weeks: _.chunk(arrDays, 7), currentWeek: _.chunk(arrDays, 7)[0] })
@@ -82,15 +98,34 @@ class App extends Component {
     var arrDays = [];
     while (daysInMonth) {
       var current = moment(newMonth).date(daysInMonth);
-      arrDays.push({ current: current, entries: [] });
+      arrDays.push({ current: current });
       daysInMonth--;
     }
     this.setState({ month: newMonth, year: newYear, days: arrDays.reverse(), weeks: _.chunk(arrDays, 7), currentWeek: _.chunk(arrDays, 7)[0] })
   }
 
   lastWeek = () => {
+    // need to fix when month switches
     if (this.state.currentWeek === this.state.weeks[0]) {
-      console.log("firstweek")
+      var newMonth = '';
+      var newYear = '';
+      if (this.state.month < 2) {
+        newMonth = '12';
+        newYear = (Number(this.state.year) - 1).toString()
+      }
+      else {
+        newMonth = (Number(this.state.month) - 1).toString();
+        newYear = this.state.year
+      }
+      var daysInMonth = moment(newMonth).daysInMonth();
+      var arrDays = [];
+      while (daysInMonth) {
+        var current = moment(newMonth).date(daysInMonth);
+        arrDays.push({ current: current });
+        daysInMonth--;
+      }
+      this.setState({ month: newMonth, year: newYear, days: arrDays.reverse(), weeks: _.chunk(arrDays, 7), currentWeek: _.chunk(arrDays, 7)[this.state.weeks.length - 1] })
+
     }
     else {
       for (var i = 0; i < this.state.weeks.length; i++) {
@@ -101,17 +136,49 @@ class App extends Component {
     }
   }
   nextWeek = () => {
-    if (this.state.currentWeek === this.state.weeks[this.state.weeks.length]) {
-      nextMonth();
-    }
-    else {
+    if (this.state.currentWeek !== this.state.weeks[this.state.weeks.length - 1]) {
       for (var i = 0; i < this.state.weeks.length; i++) {
         if (this.state.currentWeek === this.state.weeks[i]) {
           this.setState({ currentWeek: this.state.weeks[i + 1] });
         }
       }
     }
+    else {
+      // need to fix when month switches
+      var newMonth = '';
+      var newYear = '';
+      if (this.state.month > 11) {
+        newMonth = '1';
+        newYear = (Number(this.state.year) + 1).toString();
+      }
+      else {
+        newMonth = (Number(this.state.month) + 1).toString();
+        newYear = this.state.year;
+      }
+      var daysInMonth = moment(newMonth).daysInMonth();
+      var arrDays = [];
+      while (daysInMonth) {
+        var current = moment(newMonth).date(daysInMonth);
+        arrDays.push({ current: current });
+        daysInMonth--;
+      }
+      this.setState({ month: newMonth, year: newYear, days: arrDays.reverse(), weeks: _.chunk(arrDays, 7), currentWeek: _.chunk(arrDays, 7)[0] })
+    }
   }
+
+  handleInputChange = (e) => {
+    const { name, value } = e.target;
+    this.setState({
+      [name]: value,
+    });
+  }
+
+  // addEntry = () => {
+  //   this.setState({ entries : this.state.entries.concat([{ : '' }])   });
+  // }
+  // removeEntry = () =>{
+
+  // }
 
   render() {
     const { error, isLoaded } = this.state;
@@ -124,15 +191,28 @@ class App extends Component {
     else {
       return (
         <div>
-          <h1>Calendar</h1>
-          <button id="month" onClick={() => this.monthSelect()}>Month View</button>
-          <button id="week" onClick={() => this.weekSelect()}>Week View</button>
           <div>
+            <h1>Calendar</h1>
+            <button id="month" onClick={() => this.monthSelect()}>Month View</button>
+            <button id="week" onClick={() => this.weekSelect()}>Week View</button>
             <h2>{moment(this.state.month.toString()).format('MMMM')} {this.state.year} </h2>
             <button id="lastMonth" onClick={() => this.lastMonth()}>Prev Month</button>
             <button id="nextMonth" onClick={() => this.nextMonth()}>Next Month</button>
           </div>
-          <Calendar monthView={this.state.monthView} days={this.state.days} weeks={this.state.weeks} currentWeek={this.state.currentWeek} lastMonth={() => this.lastMonth()} nextMonth={() => this.nextMonth()} lastWeek={() => this.lastWeek()} nextWeek={() => this.nextWeek()} month={this.state.month} day={this.state.day} />
+          {/* <Calendar onChange={this.handleInputChange} monthView={this.state.monthView} days={this.state.days} weeks={this.state.weeks} currentWeek={this.state.currentWeek} lastMonth={() => this.lastMonth()} nextMonth={() => this.nextMonth()} lastWeek={() => this.lastWeek()} nextWeek={() => this.nextWeek()} month={this.state.month} day={this.state.day} date={this.state.month + this.state.day} /> */}
+          {this.state.monthView ?
+            <div>
+              {this.state.days.map(elem => <MonthCal day={elem.current._d.toString().slice(0, 10)} current={elem.current} entries={elem.entries} onDoubleClick={this.daySelect} />)}
+            </div> :
+            <div>
+              <div>
+                <button id="lastWeek" onClick={() => this.lastWeek()}>Prev Week</button>
+                <button id="nextWeek" onClick={() => this.nextWeek()}>Next Week</button>
+              </div>
+              <div>
+                {this.state.currentWeek.map(elem => <WeekCal day={elem.current._d.toString().slice(0, 10)} currEntry={this.state.currEntry} entries={this.state.entries} onChange={this.handleInputChange} />)}
+              </div>
+            </div>}
         </div>
       );
     }
