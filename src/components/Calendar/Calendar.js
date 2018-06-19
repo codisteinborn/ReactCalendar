@@ -40,7 +40,7 @@ const Calendar = props => {
                 <button id="nextWeek" onClick={() => props.nextWeek()}>Next Week</button>
                 </div>
                 <div>
-                    {props.currentWeek.map(elem => <WeekCal day={elem.current._d.toString().slice(0, 10)} entries={elem.entries} />)}
+                    {props.currentWeek.map(elem => <WeekCal day={elem.current._d.toString().slice(0, 10)} entries={elem.entries} date={props.date} onChange={props.onChange}/>)}
                 </div>
             </div>
     )

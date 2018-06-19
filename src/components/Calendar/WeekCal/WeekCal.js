@@ -2,23 +2,25 @@ import React from 'react';
 import './WeekCal.css'
 
 
-const WeekCal = props => (
-    <div>
+const WeekCal = props => {
+    const handleSubmit = function () {
+        localStorage.setItem(props.day, props.entries);
+    }
+    return (
         <div className="weekCell">
             <p>
                 {props.day}
             </p>
             <p>
                 Calendar Entries:
-            {props.entries}
+            {/* {props.entries} */}
             </p>
             <form>
-                <input name='entries'
-                // onChange={this.handleChange} 
-                />
+                <input id='entries' name='entries' type="text" value={props.entries} onChange={props.onChange} />
+                <button onSubmit={handleSubmit()}>Add</button>
             </form>
         </div>
-    </div>
-);
+    );
+}
 
 export default WeekCal;
