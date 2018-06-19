@@ -1,5 +1,6 @@
 import React from 'react';
 import './WeekCal.css'
+import EntryForm from '../../EntryForm/EntryForm';
 
 
 const WeekCal = props => {
@@ -13,12 +14,13 @@ const WeekCal = props => {
             </p>
             <p>
                 Calendar Entries:
-            {/* {props.entries} */}
+                {props.entries}
             </p>
-            <form>
+            {/* <form>
                 <input id={props.current} name='currEntry' type="text" value={props.currEntry} onChange={props.onChange} />
                 <button type='button' onClick={() => props.addEntry(props.current)}>Add</button>
-            </form>
+            </form> */}
+            <EntryForm onChange={props.onChange} onClick={props.addEntry} current={props.current} currEntry={props.currEntry}/>
         </div>
     );
 }
