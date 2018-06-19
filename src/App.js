@@ -175,7 +175,7 @@ class App extends Component {
     var currDay = this.state.days.find(e => e.current === current);
     for (var i = 0; i < this.state.days.length; i++) {
       if (this.state.days[i].current === currDay.current) {
-        this.state.days[i].entries.push( this.state.currEntry);
+        this.state.days[i].entries.push(this.state.currEntry);
         this.setState({entries: [...this.state.entries , this.state.currEntry] , weeks : _.chunk(this.state.days, 7)})
         localStorage.setItem(this.state.days[i], this.state.currEntry);
       }
@@ -186,9 +186,22 @@ class App extends Component {
       }
     }
   }
-  // removeEntry = () =>{
-
-  // }
+  removeEntry = (entry) => {
+    var currEnt = this.state.days.find(e => e.entries === entry);
+    console.log(currEnt)
+    // for (var i = 0; i < this.state.days.length; i++) {
+    //   if (this.state.days[i].entries.includes(currEnt)) {
+    //     this.state.days[i].entries.push( this.state.currEntry);
+    //     this.setState({entries: [...this.state.entries , this.state.currEntry] , weeks : _.chunk(this.state.days, 7)})
+    //     localStorage.setItem(this.state.days[i], this.state.currEntry);
+    //   }
+    // }
+    // for (var j = 0; j < this.state.weeks.length; j++) {
+    //   if (this.state.weeks[j].includes(currDay)) {
+    //     this.setState({ currentWeek: this.state.weeks[j] });
+    //   }
+    // }
+  }
 
   render() {
     const { error, isLoaded } = this.state;
@@ -220,7 +233,7 @@ class App extends Component {
                 <button id="nextWeek" onClick={() => this.nextWeek()}>Next Week</button>
               </div>
               <div>
-                {this.state.currentWeek.map(elem => <WeekCal key={elem.current} day={elem.current._d.toString().slice(0, 10)} current={elem.current} currEntry={this.state.currEntry} entries={elem.entries} onChange={this.handleInputChange} addEntry={this.addEntry} />)}
+                {this.state.currentWeek.map(elem => <WeekCal key={elem.current} day={elem.current._d.toString().slice(0, 10)} current={elem.current} currEntry={this.state.currEntry} entries={elem.entries} onChange={this.handleInputChange} addEntry={this.addEntry} removeEntry={this.removeEntry}/>)}
               </div>
             </div>}
         </div>
