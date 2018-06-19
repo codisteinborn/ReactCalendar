@@ -10,7 +10,7 @@ const MonthCal = props => {
             </p>
             <p>
             Calendar Entries:
-            {/* {props.entries.length} */}
+            {props.entries.length}
             </p>
         </div>
 );

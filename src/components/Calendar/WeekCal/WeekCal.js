@@ -3,9 +3,9 @@ import './WeekCal.css'
 
 
 const WeekCal = props => {
-    const handleSubmit = function () {
-        localStorage.setItem(props.day, props.entries);
-    }
+    // const handleSubmit = function () {
+    //     localStorage.setItem(props.current, props.currEntry);
+    // }
     return (
         <div className="weekCell">
             <p>
@@ -16,8 +16,8 @@ const WeekCal = props => {
             {/* {props.entries} */}
             </p>
             <form>
-                <input id='entries' name='entries' type="text" value={props.entries} onChange={props.onChange} />
-                <button onSubmit={handleSubmit()}>Add</button>
+                <input id={props.current} name='currEntry' type="text" value={props.currEntry} onChange={props.onChange} />
+                <button type='button' onClick={() => props.addEntry(props.current)}>Add</button>
             </form>
         </div>
     );

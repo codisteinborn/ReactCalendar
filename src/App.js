@@ -49,9 +49,7 @@ class App extends Component {
   }
 
   daySelect = (current) => {
-    console.log("double click")
     var currDay = this.state.days.find(e => e.current === current);
-    console.log(currDay)
     for (var i = 0; i < this.state.weeks.length; i++) {
       if (this.state.weeks[i].includes(currDay)) {
         this.setState({ monthView: false, currentWeek: this.state.weeks[i] });
@@ -173,9 +171,12 @@ class App extends Component {
     });
   }
 
-  // addEntry = () => {
-  //   this.setState({ entries : this.state.entries.concat([{ : '' }])   });
-  // }
+  addEntry = (current) => {
+    // var currDay = this.state.days.find(e => e.current === current);
+    // currDay = currDay.toString()
+    this.setState({ entries: [...this.state.entries , {entry : this.state.currEntry}] });
+    localStorage.setItem(current, this.state.currEntry);
+  }
   // removeEntry = () =>{
 
   // }
@@ -202,7 +203,7 @@ class App extends Component {
           {/* <Calendar onChange={this.handleInputChange} monthView={this.state.monthView} days={this.state.days} weeks={this.state.weeks} currentWeek={this.state.currentWeek} lastMonth={() => this.lastMonth()} nextMonth={() => this.nextMonth()} lastWeek={() => this.lastWeek()} nextWeek={() => this.nextWeek()} month={this.state.month} day={this.state.day} date={this.state.month + this.state.day} /> */}
           {this.state.monthView ?
             <div>
-              {this.state.days.map(elem => <MonthCal day={elem.current._d.toString().slice(0, 10)} current={elem.current} entries={elem.entries} onDoubleClick={this.daySelect} />)}
+              {this.state.days.map(elem => <MonthCal key={elem.current} day={elem.current._d.toString().slice(0, 10)} current={elem.current} entries={elem.entries} onDoubleClick={this.daySelect} />)}
             </div> :
             <div>
               <div>
@@ -210,7 +211,7 @@ class App extends Component {
                 <button id="nextWeek" onClick={() => this.nextWeek()}>Next Week</button>
               </div>
               <div>
-                {this.state.currentWeek.map(elem => <WeekCal day={elem.current._d.toString().slice(0, 10)} currEntry={this.state.currEntry} entries={this.state.entries} onChange={this.handleInputChange} />)}
+                {this.state.currentWeek.map(elem => <WeekCal key={elem.current} day={elem.current._d.toString().slice(0, 10)} current={elem.current} currEntry={this.state.currEntry} entries={this.state.entries} onChange={this.handleInputChange} addEntry={this.addEntry} />)}
               </div>
             </div>}
         </div>
