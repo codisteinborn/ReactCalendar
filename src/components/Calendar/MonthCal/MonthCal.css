@@ -1,5 +1,24 @@
 .monthCell{
-border: 2px solid black;
-width: 13%;
-float: left;
+    border: 2px solid black;
+    height: 170px;
+    width: 13%;
+    float: left;
+    text-align: center;
+}
+.date{
+    font-size: 24px;
+    text-align: center;
+}
+.entryNum{
+    font-size: 15px;
+    margin-top: 2px;
+}
+
+@media only screen and (max-width: 480px){
+    .date{
+        font-size: 20px;
+    }
+    .entryNum{
+        font-size: 12px;
+    }
 }
