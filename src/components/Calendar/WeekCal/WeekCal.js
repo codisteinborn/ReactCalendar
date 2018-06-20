@@ -1,6 +1,7 @@
 import React from 'react';
 import './WeekCal.css'
 import EntryForm from '../../EntryForm/EntryForm';
+import Entry from '../../Entry'
 
 
 const WeekCal = props => {
@@ -11,7 +12,7 @@ const WeekCal = props => {
             </p>
             <div>
                 Calendar Entries:
-                {props.entries.map(elem => <div key={elem} entry={elem}><p>{elem}</p> <button onClick={() => props.removeEntry(elem.toString())}>Remove</button></div>)}
+                {props.entries.map(elem => <Entry key={elem} entry={elem} removeEntry={props.removeEntry}/>)}
             </div>
             <EntryForm onChange={props.onChange} onClick={props.addEntry} current={props.current} currEntry={props.currEntry}/>
         </div>
