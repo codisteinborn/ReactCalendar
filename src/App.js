@@ -24,6 +24,7 @@ class App extends Component {
     };
   }
 
+  // Retreiving current date information from moment.js and setting initial state
   componentDidMount() {
     var now = (new Date()).toString().split(' ');
     var month = moment().format('MM');
@@ -46,14 +47,17 @@ class App extends Component {
     this.setState({ monthView: true, isLoaded: true, date: now, month: month, day: day, year: year, days: arrDays.reverse(), weeks: _.chunk(arrDays, 7) });
   }
 
+  // switching to the Month View
   monthSelect = () => {
     this.setState({ monthView: true });
   }
 
+  // switching to the Week View
   weekSelect = () => {
     this.setState({ monthView: false, currentWeek: this.state.weeks[0] });
   }
 
+  // switching to the Week View when double clicking a specific day
   daySelect = (current) => {
     var currDay = this.state.days.find(e => e.current === current);
     for (var i = 0; i < this.state.weeks.length; i++) {
@@ -63,6 +67,7 @@ class App extends Component {
     }
   }
 
+  // Navigating to the previous month in Month View and updating state
   lastMonth = () => {
     var newMonth = '';
     var newYear = ''
@@ -91,6 +96,7 @@ class App extends Component {
     this.setState({ month: newMonth, year: newYear, days: arrDays.reverse(), weeks: _.chunk(arrDays, 7), currentWeek: _.chunk(arrDays, 7)[0] })
   }
 
+  // Navigating to the next month in Month View  and updating state
   nextMonth = () => {
     var newMonth = '';
     var newYear = '';
@@ -119,6 +125,7 @@ class App extends Component {
     this.setState({ month: newMonth, year: newYear, days: arrDays.reverse(), weeks: _.chunk(arrDays, 7), currentWeek: _.chunk(arrDays, 7)[0] })
   }
 
+  // Navigating to the previous week in Week View and updating state
   lastWeek = () => {
     if (this.state.currentWeek === this.state.weeks[0]) {
       var newMonth = '';
@@ -156,9 +163,10 @@ class App extends Component {
       }
     }
   }
+
+  // Navigating to the next week in Week View and updating state
   nextWeek = () => {
     if (this.state.currentWeek === this.state.weeks[this.state.weeks.length - 1]) {
-      console.log("here")
       var newMonth = '';
       var newYear = '';
       if (this.state.month > 11) {
@@ -186,21 +194,22 @@ class App extends Component {
       this.setState({ month: newMonth, year: newYear, days: arrDays.reverse(), weeks: _.chunk(arrDays, 7), currentWeek: _.chunk(arrDays, 7)[0] })
     }
     else if (this.state.currentWeek === this.state.weeks[0]) {
-      console.log("there")
+      // console.log("here")
       this.setState({ currentWeek: this.state.weeks[1] });
     }
     else {
-      console.log("y")
+      // console.log("there")
       for (var i = 0; i < this.state.weeks.length; i++) {
-        console.log("x")
+        // console.log("spot")
         if (this.state.currentWeek === this.state.weeks[i]) {
-          console.log("z")
+          // console.log("hit")
           this.setState({ currentWeek: this.state.weeks[i + 1] });
         }
       }
     }
   }
 
+  // handles state update from form entry
   handleInputChange = (e) => {
     const { name, value } = e.target;
     this.setState({
@@ -208,6 +217,7 @@ class App extends Component {
     });
   }
 
+  // adding a calendar entry to a specific day and storing entry in local storage
   addEntry = (current) => {
     var currDay = this.state.days.find(e => e.current === current);
     for (var i = 0; i < this.state.days.length; i++) {
@@ -233,6 +243,7 @@ class App extends Component {
     this.setState({ currEntry: '' })
   }
 
+  // removing a calendar entry from a specific day and deleting entry in local storage
   removeEntry = (entry, current) => {
     for (var i = 0; i < this.state.days.length; i++) {
       for (var j = 0; j < this.state.days[i].entries.length; j++) {
@@ -251,8 +262,9 @@ class App extends Component {
     }
   }
 
+  // editing a calendar entry and re-storing the new entry
   editEntry = (entry, current) => {
-    this.setState({currEntry : entry})
+    this.setState({ currEntry: entry })
     for (var i = 0; i < this.state.days.length; i++) {
       for (var j = 0; j < this.state.days[i].entries.length; j++) {
         if (this.state.days[i].entries[j].toString() === entry.toString()) {
@@ -301,7 +313,7 @@ class App extends Component {
                     <button className="btn nxtWk" id="nextWeek" onClick={() => this.nextWeek()}>Next Week</button>
                   </div>
                   <div>
-                    {this.state.currentWeek.map(elem => <WeekCal key={elem.current} day={elem.current._d.toString().slice(0, 10)} current={elem.current} currEntry={this.state.currEntry} entries={elem.entries} onChange={this.handleInputChange} addEntry={this.addEntry} removeEntry={this.removeEntry} editEntry={this.editEntry}/>)}
+                    {this.state.currentWeek.map(elem => <WeekCal key={elem.current} day={elem.current._d.toString().slice(0, 10)} current={elem.current} currEntry={this.state.currEntry} entries={elem.entries} onChange={this.handleInputChange} addEntry={this.addEntry} removeEntry={this.removeEntry} editEntry={this.editEntry} />)}
                   </div>
                 </div>}
             </div>
