@@ -22,4 +22,4 @@ Create React App - <https://github.com/facebookincubator/create-react-app/> \
 React - <https://reactjs.org/> \
 Moment.js - <https://momentjs.com/> \
 Underscore.js - <https://underscorejs.org/> \
-Google Fonts - <https://fonts.google.com/> \
+Google Fonts - <https://fonts.google.com/> 
