@@ -12,7 +12,7 @@ const WeekCal = props => {
             </p>
             <div>
                 Calendar Entries:
-                {props.entries.map(elem => <Entry key={elem} entry={elem} removeEntry={props.removeEntry}/>)}
+                {props.entries.map(elem => <Entry key={elem} entry={elem} current={props.current} removeEntry={props.removeEntry}/>)}
             </div>
             <EntryForm onChange={props.onChange} onClick={props.addEntry} current={props.current} currEntry={props.currEntry}/>
         </div>

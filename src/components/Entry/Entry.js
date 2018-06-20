@@ -7,7 +7,7 @@ const Entry = props => {
             <p>
                 {props.entry}
             </p>
-            <button onClick={() => props.removeEntry(props.entry)}>Remove</button>
+            <button onClick={() => props.removeEntry(props.entry, props.current)}>Remove</button>
         </div>
     );
 }
