@@ -177,7 +177,7 @@ class App extends Component {
       if (this.state.days[i].current === currDay.current) {
         this.state.days[i].entries.push(this.state.currEntry);
         this.setState({entries: [...this.state.entries , this.state.currEntry] , weeks : _.chunk(this.state.days, 7)})
-        localStorage.setItem(this.state.days[i], this.state.currEntry);
+        localStorage.setItem(i, this.state.currEntry);
       }
     }
     for (var j = 0; j < this.state.weeks.length; j++) {
@@ -187,21 +187,32 @@ class App extends Component {
     }
   }
   removeEntry = (entry) => {
-    var currEnt = this.state.days.find(e => e.entries === entry);
-    console.log(currEnt)
-    // for (var i = 0; i < this.state.days.length; i++) {
-    //   if (this.state.days[i].entries.includes(currEnt)) {
-    //     this.state.days[i].entries.push( this.state.currEntry);
-    //     this.setState({entries: [...this.state.entries , this.state.currEntry] , weeks : _.chunk(this.state.days, 7)})
-    //     localStorage.setItem(this.state.days[i], this.state.currEntry);
-    //   }
-    // }
+    for (var i = 0; i < this.state.days.length; i++) {
+      for (var j = 0; j < this.state.days[i].entries.length; j++){
+        if(this.state.days[i].entries[j].toString() === entry.toString()){
+          // var index = this.state.days[i].entries.indexOf(entry.toString());
+          this.state.days[i].entries = this.state.days[i].entries.filter(e => e !== entry.toString());
+          this.setState({entries : this.state.entries.filter(e => e !== entry), weeks : _.chunk(this.state.days, 7)})
+        }
+      }
+        // var days = this.state.days[i].entries.filter(e => e === entry);
+        // this.setState({days: days , entries : this.state.entries.filter(e => e !== entry)});
+        // this.setState({days: this.state.days[i].filter(day => this.state.day.entries !== entry ), entries : this.state.entries.filter(e => e !== entry)});
+        // console.log(this.state.days[i].entries)
+      }
+      // if (this.state.days[i].entries.includes(entry)) {
+      //   this.state.days[i].entries.filter(e => e.entries !== entry);
+        // this.state.days[i].entries.push( this.state.currEntry);
+        // this.setState({entries: [...this.state.entries , this.state.currEntry] , weeks : _.chunk(this.state.days, 7)})
+        // localStorage.setItem(this.state.days[i], this.state.currEntry);
+      // }
+    }
     // for (var j = 0; j < this.state.weeks.length; j++) {
     //   if (this.state.weeks[j].includes(currDay)) {
     //     this.setState({ currentWeek: this.state.weeks[j] });
     //   }
     // }
-  }
+
 
   render() {
     const { error, isLoaded } = this.state;
