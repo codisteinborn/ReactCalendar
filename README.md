@@ -1,4 +1,3 @@
-This project was bootstrapped with [Create React App]().
 
 To run this project locally navigate to the main folder and use `yarn install` then `yarn start` in the terminal command line.
 
@@ -12,10 +11,10 @@ When the page initially loads you will see the current month and year listed wit
 
 -You can double click on a specific date to take you to the week view of that date and have all the functionality that you would from clicking on the 'Week View' button.
 
-###Month View
+### Month View
 ![Month View](monthView.png)
 
-###Week View
+### Week View
 ![Week View](weekView.png)
 
 ### Built Utilizing:
