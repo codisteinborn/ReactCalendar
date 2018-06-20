@@ -1,4 +1,5 @@
 import React from 'react';
+import './Entry.css'
 
 
 const Entry = props => {
@@ -7,7 +8,8 @@ const Entry = props => {
             <p>
                 {props.entry}
             </p>
-            <button onClick={() => props.removeEntry(props.entry, props.current)}>Remove</button>
+            <button className="entryBtn" onClick={() => props.editEntry(props.entry, props.current)}>Edit</button>
+            <button className="entryBtn" onClick={() => props.removeEntry(props.entry, props.current)}>Delete</button>
         </div>
     );
 }

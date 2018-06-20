@@ -1,0 +1,17 @@
+.entry{
+    text-align: center;
+}
+.entryBtn{
+    width: 40%;
+    text-align: center;
+    border: 1px rgba(231, 26, 26, 0.836) solid;
+    font-size: 10px;
+    background-color: rgb(225, 232, 238);
+}
+
+@media only screen and (max-width: 680px){
+    .entryBtn{
+        width: 75%;
+        font-size: 5px;
+    }
+}
