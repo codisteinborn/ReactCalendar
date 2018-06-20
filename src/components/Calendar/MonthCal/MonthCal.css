@@ -1,7 +1,7 @@
 .monthCell{
     border: 2px solid black;
     height: 170px;
-    width: 13%;
+    width: 13.5%;
     float: left;
     text-align: center;
 }
@@ -15,6 +15,9 @@
 }
 
 @media only screen and (max-width: 480px){
+    .monthCell{
+        width: 13%;
+    }
     .date{
         font-size: 20px;
     }

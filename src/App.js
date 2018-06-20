@@ -96,11 +96,11 @@ class App extends Component {
     var newYear = '';
     if (this.state.month > 11) {
       newMonth = '1';
-      newYear = (parseInt(this.state.year, 2) + 1).toString()
+      newYear = (Number(this.state.year) + 1).toString();
     }
     else {
       newMonth = (Number(this.state.month) + 1).toString();
-      newYear = this.state.year
+      newYear = this.state.year;
     }
     var daysInMonth = moment(newYear + "-" + newMonth).daysInMonth();
     var arrDays = [];
@@ -298,7 +298,7 @@ class App extends Component {
                 <div>
                   <div>
                     <button className="btn" id="lastWeek" onClick={() => this.lastWeek()}>Prev Week</button>
-                    <button className="btn" id="nextWeek" onClick={() => this.nextWeek()}>Next Week</button>
+                    <button className="btn nxtWk" id="nextWeek" onClick={() => this.nextWeek()}>Next Week</button>
                   </div>
                   <div>
                     {this.state.currentWeek.map(elem => <WeekCal key={elem.current} day={elem.current._d.toString().slice(0, 10)} current={elem.current} currEntry={this.state.currEntry} entries={elem.entries} onChange={this.handleInputChange} addEntry={this.addEntry} removeEntry={this.removeEntry} editEntry={this.editEntry}/>)}
