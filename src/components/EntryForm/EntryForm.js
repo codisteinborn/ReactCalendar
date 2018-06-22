@@ -21,8 +21,11 @@ const EntryForm = props => {
         //         <FormControl componentClass="textarea" placeholder="textarea" name='currEntry' onChange={props.onChange} />
         //     </FormGroup>
         //     <button className="entryBtn" type='button' onClick={() => props.onClick(props.current)}>Add</button>
+        
+        // className="formInput" id={props.current} name={`currEntry${props.current.toString().slice(0,3)}`} type="text" value={props.currEntry + `${props.current.toString().slice(0,3)}`} onChange={props.onChange}
+        
         <form>
-           <input className="formInput" id={props.current} name={`currEntry${props.current.toString().slice(0,3)}`} type="text" value={props.currEntry + `${props.current.toString().slice(0,3)}`} onChange={props.onChange} />
+           <input className="formInput" id={props.current} name='currEntry' type="text" value={props.currEntry} onChange={props.onChange} />
             <button className="entryBtn" type='button' id={props.current} onClick={() => props.onClick(props.current)}>Add</button>
           </form> 
         // </div>
