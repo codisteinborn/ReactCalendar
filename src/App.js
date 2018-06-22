@@ -4,6 +4,7 @@ import _ from 'underscore';
 import './App.css';
 import MonthCal from './components/Calendar/MonthCal';
 import WeekCal from './components/Calendar/WeekCal';
+// import EntryForm from './components/EntryForm';
 
 class App extends Component {
   constructor(props) {
@@ -20,7 +21,10 @@ class App extends Component {
       day: '',
       year: '',
       currEntry: '',
-      entries: []
+      entries: [],
+      currEntryFri: '',
+      currEntrySat: '',
+      currEntrySun: '',
     };
   }
 
@@ -193,10 +197,7 @@ class App extends Component {
       }
       this.setState({ month: newMonth, year: newYear, days: arrDays.reverse(), weeks: _.chunk(arrDays, 7), currentWeek: _.chunk(arrDays, 7)[0] })
     }
-    else if (this.state.currentWeek === this.state.weeks[0]) {
-      // console.log("here")
-      this.setState({ currentWeek: this.state.weeks[1] });
-    }
+    
     else {
       // console.log("there")
       for (var i = 0; i < this.state.weeks.length; i++) {
@@ -214,6 +215,7 @@ class App extends Component {
     const { name, value } = e.target;
     this.setState({
       [name]: value,
+      // currEntry: value
     });
   }
 
@@ -313,7 +315,8 @@ class App extends Component {
                     <button className="btn nxtWk" id="nextWeek" onClick={() => this.nextWeek()}>Next Week</button>
                   </div>
                   <div>
-                    {this.state.currentWeek.map(elem => <WeekCal key={elem.current} day={elem.current._d.toString().slice(0, 10)} current={elem.current} currEntry={this.state.currEntry} entries={elem.entries} onChange={this.handleInputChange} addEntry={this.addEntry} removeEntry={this.removeEntry} editEntry={this.editEntry} />)}
+                    {this.state.currentWeek.map(elem => <WeekCal key={elem.current} day={elem.current._d.toString().slice(0, 10)} current={elem.current} currEntry={this.state.currEntry} currEntryFri={this.state.currEntryFri} entries={elem.entries} onChange={this.handleInputChange} addEntry={this.addEntry} removeEntry={this.removeEntry} editEntry={this.editEntry} />)}
+                    {/* <EntryForm onChange={this.handleInputChange} onClick={this.addEntry} currWeek={this.state.currentWeek} currEntry={this.state.currEntry}/> */}
                   </div>
                 </div>}
             </div>

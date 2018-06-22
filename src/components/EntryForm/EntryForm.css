@@ -3,3 +3,7 @@
     border: 1px black solid;
     margin-top: 15px;
 }
+.entryForm{
+    width: 60%;
+    /* border: 2px black solid; */
+}
